@@ -5,21 +5,13 @@ import Link from "next/link";
 export default async function Home() {
   const postCount = await prisma.post.count();
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email: "gynflo@gmail.com",
-    },
-    include: {
-      posts: true,
-    },
-  });
-
+  const posts = await prisma.post.findMany({});
   return (
     <main className="flex h-full w-full flex-col items-center gap-y-5 bg-gray-100 pt-24">
       <h1 className="text-3xl font-semibold">All posts ({postCount})</h1>
       <ul className="border-b border-t border-black/10 py-5 leading-8">
-        {user &&
-          user.posts.map((post) => (
+        {posts &&
+          posts.map((post) => (
             <li
               key={post.id}
               className="flex items-center justify-between px-5"
